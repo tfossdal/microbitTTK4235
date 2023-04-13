@@ -1,6 +1,6 @@
 #include "uart.h"
 #include <stdio.h>
-#include <unistd.h>
+#include <stdint.h>
 
 
 ssize_t _write(int fd, const void *buf, size_t count){
@@ -11,8 +11,12 @@ ssize_t _write(int fd, const void *buf, size_t count){
     }
     return count;
 }
+
 int main(){
     int ledOn = 0;
+
+    uart_init();
+    gpio_init();
 
     iprintf("The average grade in TTK%d was in %d and %d: %c\n\r",4235,2019,2018,'C');
     
@@ -25,7 +29,7 @@ int main(){
         uart_send('A');
         }
 
-        if (UART0->EVENTS_RXDRDY){
+        if (uart_read() != '\0'){
             if(!ledOn){
 
                 GPIO0->OUTSET = 1 << 21;

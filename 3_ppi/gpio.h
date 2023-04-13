@@ -38,3 +38,4 @@ typedef struct {
 
 #endif
 
+void gpio_init();

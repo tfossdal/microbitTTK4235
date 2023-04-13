@@ -61,7 +61,6 @@ int main(){
 			GPIO0->OUTSET = 1 << 21;
 			GPIO0->OUTSET = 1 << 22;
 			GPIO0->OUTSET = 1 << 15;
-			GPIO0->OUTSET = 1 << 31;
 			GPIO0->OUTSET = 1 << 24;
 			GPIO0->OUTSET = 1 << 19;
 		} 

@@ -10,8 +10,8 @@ void uart_init(){
     UART0->PSELTXD = 0x6;   // sel pin 0.00110 = 0x6
     UART0->PSELRXD = 0x28;
     UART0->BAUDRATE = 0x00275000;
-    UART0->PSELRTS =~ 0;
-    UART0->PSELCTS =~ 0;
+    UART0->PSELRTS = 1<<31;
+    UART0->PSELCTS = 1<<31;
     UART0->ENABLE = 4;
     UART0->TASKS_STARTRX = 1;
     return;
@@ -21,15 +21,16 @@ void uart_send(char letter){
     UART0->TASKS_STARTTX = 1;
     UART0->TXD = letter;
     while (UART0->EVENTS_TXDRDY==0);
+    UART0->EVENTS_TXDRDY = 0;
     UART0->TASKS_STOPTX = 1;
     return;
 }
 
 char uart_read(){
-    UART0->EVENTS_RXDRDY = 0;
-    char letter = UART0->RXD;
-    if(letter == 0){
+    if(UART0->EVENTS_RXDRDY == 0){
         return '\0';
     }
+    UART0->EVENTS_RXDRDY = 0;
+    char letter = UART0->RXD;
     return letter;
 }
